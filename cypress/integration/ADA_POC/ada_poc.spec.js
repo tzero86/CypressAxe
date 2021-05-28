@@ -13,7 +13,7 @@ const terminalLog = (violations) => {
         id,
         impact,
         description,
-        html: nodes[0].html,
+        //html: nodes[0].html,
         //summary: nodes[0].failureSummary
       })
     )
@@ -22,7 +22,8 @@ const terminalLog = (violations) => {
   }
 
 
-describe('Accessibility testing POC', ()=>{
+describe('Automated Accessibility Testing POC', ()=>{
+
     it('This page should be accessible.', ()=>{
         cy.visit('/');
         cy.injectAxe();
@@ -31,7 +32,7 @@ describe('Accessibility testing POC', ()=>{
             {
               runOnly: {
                 type: 'tag',
-                values: ['wcag2a'],
+                values: ['wcag2a', 'wcag2aa'],
               },
             },
             terminalLog,
