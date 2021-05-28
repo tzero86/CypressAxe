@@ -1,5 +1,14 @@
 # Automated ADA Testing - (Axe-core & Cypress) - WORK IN PROGRESS
 
+The other day at work a colleague shared the basics on how to start doing Accessibility testing using JAWS and WAVE. It was quite motivating so I started looking into how we can have some of these tests automated and found out that there is actually a way to run automated accessibility tests that could provide a good ammount of coverage in a really fast manner. I
+
+This could potentially benefit the rest of the team to allow them to have an extra tool that could quickly provide an accessibility assesment, at least for all possible tests covered by the Axe-Core Library.
+
+Anyways, I took some time today to draft this quick POC on how to run some accessibility tests with Cypress and Axe-Core. I did have to spend some time on getting some better-formatted results so this is actually something useful.
+
+
+## Requirements
+
 To get started we'll need the following installed on the machine where you plan to run this POC:
 
 - JavaScript IDE: Visual Studio Code, Atom, etc.
@@ -63,7 +72,7 @@ However, the results are not that useful right now. We know that Axe seems to ha
 
 ## Getting better test results
 
-In order to get better results out of the automated testing we configured using Cypress and Axe-core, we need to do some tweaking.  We need to add some code in order for Cypress to be able to log the results from Axe in a more user-friendly-shareable format.  Open the following file: `cypress/plugins/index.js` the same we edited before. And add the following piece of code:
+In order to get better results out of the automated testing we configured using Cypress and Axe-core, we need to do some tweaking.  We need to add some code in order for Cypress to be able to log the results from Axe in a more user-friendly-shareable format.  Open the following file: `cypress/plugins/index.js`, notice this is not the same file we edited before. Once opened add the following piece of code:
 
 ```js
 module.exports = (on, config) => {
@@ -81,7 +90,7 @@ module.exports = (on, config) => {
 ```
 
 
-
+## Will continue this tomorrow, I'm tired. I'll go to sleep.
 
 
 
