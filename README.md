@@ -1,8 +1,8 @@
 # Automated ADA Testing - (Axe-core & Cypress) - WORK IN PROGRESS
 
-The other day at work a colleague shared the basics on how to start doing Accessibility testing using JAWS and WAVE. It was quite motivating so I started looking into how we can have some of these tests automated and found out that there is actually a way to run automated accessibility tests that could provide a good ammount of coverage in a really fast manner. I
+The other day at work a colleague shared the basics on how to start doing Accessibility testing using JAWS and WAVE. It was quite motivating so I started looking into how we can have some of these tests automated and found out that there is actually a way to run automated accessibility tests that could provide a good amount of coverage in a really fast manner. I
 
-This could potentially benefit the rest of the team to allow them to have an extra tool that could quickly provide an accessibility assesment, at least for all possible tests covered by the Axe-Core Library.
+This could potentially benefit the rest of the team to allow them to have an extra tool that could quickly provide an accessibility assessment, at least for all possible tests covered by the Axe-Core Library.
 
 Anyways, I took some time today to draft this quick POC on how to run some accessibility tests with Cypress and Axe-Core. I did have to spend some time on getting some better-formatted results so this is actually something useful.
 
@@ -74,9 +74,9 @@ However, the results are not that useful right now. We know that Axe seems to ha
 
 ## Getting better test results
 
-In order to get better results out of the automated testing we configured using Cypress and Axe-core, we need to do some tweaking.  We need to add some code in order for Cypress to be able to log the results from Axe in a more user-friendly-shareable format.  Open the following file: `cypress/plugins/index.js`, notice this is not the same file we edited before. Once opened we'll be adding the following piece of code. This code will create a custom command and two helper functions that will pretty-formatt the test results so the results can be easily reviewed in both console and the Cypress runner. 
+In order to get better results out of the automated testing we configured using Cypress and Axe-core, we need to do some tweaking.  We need to add some code in order for Cypress to be able to log the results from Axe in a more user-friendly-shareable format.  Open the following file: `cypress/plugins/index.js`, notice this is not the same file we edited before. Once opened we'll be adding the following piece of code. This code will create a custom command and two helper functions that will pretty-format the test results so the results can be easily reviewed in both console and the Cypress runner. 
 
-The custom command connects all the parts and will let us even further simplify our tests, since we can focus just on the logic required for the test itself leaving all helper functions under cypress configuration files. Then by calling this single command called `testAccessibility`, the code will automatically take care of instructing Cypress to navigate to the target page, will inject Axe into the page and then run the Axe-Core tests for WCAG A and AA tests automatically.
+The custom command connects all the parts and will let us even further simplify our tests, since we can focus just on the logic required for the test itself leaving all helper functions under cypress configuration files. Then by calling this single command called `testAccessibility`, the code will automatically take care of instructing Cypress to navigate to the target page, will inject Axe into the page and then run the Axe-Core tests for [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) A and AA tests automatically.
 
 ```js
 // FILE: cypress/plugins/index.js
@@ -171,7 +171,7 @@ Cypress.Commands.add('testAccessibility', (path) => {
 
 ```
 
-This will let us have better results outputting to the console as well as in the Cypress runner. It will clearly highlight and color code issues by impact severity and in the case of the runner, it will also detail all elements affected by each accesibility issue. This is not added to the console since the output gets messed up if you have long texts or too much data. We'll cover later on how we can generate a full report from these results that we can further analyze or even share.
+This will let us have better results outputting to the console as well as in the Cypress runner. It will clearly highlight and color code issues by impact severity and in the case of the runner, it will also detail all elements affected by each accessibility issue. This is not added to the console since the output gets messed up if you have long texts or too much data. We'll cover later on how we can generate a full report from these results that we can further analyze or even share.
 
 With all this done let's take a look at how our test will look like:
 
@@ -186,7 +186,7 @@ describe('Automated Accessibility Testing POC', ()=>{
 })
 ```
 
-As you can see it is now much more readable and simple, and this simple custom command can now be used along any E2E regular automated tests and have the accessibility tested along them. It is worth mentioning that this POC is just using all Axe-core tests on base URL but it can very well be targetted to specific scenarios or even to test after an automated user interaction is performed to see how the acccsibility features of the website are behaving in those cases.
+As you can see it is now much more readable and simple, and this simple custom command can now be used along any E2E regular automated tests and have the accessibility tested along them. It is worth mentioning that this POC is just using all Axe-core tests on base URL but it can very well be targeted to specific scenarios or even to test after an automated user interaction is performed to see how the accessibility features of the website are behaving in those cases.
 
 But we did a lot of work to get better results and we haven't seen any so far, lets check how the results show up in the console first:
 
@@ -197,9 +197,22 @@ They are looking quite nice and readable to me, at least compared to the previou
 
 ![](https://i.imgur.com/Z0v1n9E.png)
 
-Notice that now the issues are clearly listed in the runner details, with colored output and it even lists all the elements that are affected for each type of issue listed, those FIXME that you can see in the image. You can even click on them and the corresponding html element will be highlighted in the Cypress' runner integrated browser.
+Notice that now the issues are clearly listed in the runner details, with colored output and it even lists all the elements that are affected for each type of issue found(those FIXME that you can see in the image). You can even click on the FIXME items and the corresponding html element will be highlighted in the Cypress' runner integrated browser.
+
+
+## Planned additions
+
+📌 Generate a JSON Full Report
+
+📌 Generate an HTML formatted report for sharing
+
+📌 Add example tests of specific elements testing
+
+📌 Add details on which types of tests and rules can be tested with the Axe-Core integration.
+
 
 That's all for now, let' me think if there is anything else we might need to detail here and I might be back later with more updates for you my README.md friend.
+
 
 
 @tzero86
