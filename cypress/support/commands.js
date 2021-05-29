@@ -36,7 +36,7 @@ function logViolations(violations) {
     violations.forEach(violation => {
         const nodes = Cypress.$(violation.nodes.map(node => node.target).join(','))
         let log = {
-            name: `[${indicators[violation.impact]} ${violation.impact}]`,
+            name: `[${indicators[violation.impact]} ${violation.impact.toUpperCase()}]`,
             consoleProps: () => violation,
             $el: nodes,
             message: `[${violation.help}](${violation.helpUrl})`
@@ -46,7 +46,7 @@ function logViolations(violations) {
 
         violation.nodes.forEach(({ target }) => {
             Cypress.log({
-                name: '- 🩸 FIXME',
+                name: '-🩸FIXME',
                 consoleProps: ()=> violation,
                 $el: Cypress.$(target.join(',')),
                 message: target
@@ -59,18 +59,20 @@ function logViolations(violations) {
 const terminalLog = (violations) => {
     cy.task(
       'log',
-      `${violations.length} accessibility violation${
+      `\n${'TEST RESULTS'}
+      \n${violations.length} accessibility violation${
         violations.length === 1 ? '' : 's'
-      } ${violations.length === 1 ? 'was' : 'were'} detected`
+      } ${violations.length === 1 ? 'was' : 'were'} detected\n`
     )
-    // pluck specific keys to keep the table readable
+    
     cy.log('log', violations)
     const violationData = violations.map(
-      ({ id, impact, description, nodes}) => ({
-        name: `${indicators[impact]} ${impact}`,
-        nodes: nodes.length,
-        id,
-        description,
+      ({ id, impact, description, nodes, help, helpUrl}) => ({
+        QUANTITY: nodes.length,
+        IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
+        ID:id,
+        DESCRIPTION: help,
+        //RESOURCES: `[LINK](${helpUrl})`
         //html: nodes[0].html,
         //summary: nodes[0].failureSummary
       })

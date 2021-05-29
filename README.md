@@ -7,7 +7,7 @@ This could potentially benefit the rest of the team to allow them to have an ext
 Anyways, I took some time today to draft this quick POC on how to run some accessibility tests with Cypress and Axe-Core. I did have to spend some time on getting some better-formatted results so this is actually something useful.
 
 
-## Requirements
+## ⚠️ Requirements
 
 To get started we'll need the following installed on the machine where you plan to run this POC:
 
@@ -53,6 +53,8 @@ To get things started we need to create a new file: `ada_poc.spec.js`, inside th
 Let's add one generic sample test to our recently created file:
 
 ```js
+// FILE: cypress/integration/ADA_POC/ada_poc.spec.js
+
 describe('Accessibility testing POC', ()=>{
 	it('This page should be accessible.', ()=>{
 		cy.visit('www.google.com');
@@ -72,9 +74,13 @@ However, the results are not that useful right now. We know that Axe seems to ha
 
 ## Getting better test results
 
-In order to get better results out of the automated testing we configured using Cypress and Axe-core, we need to do some tweaking.  We need to add some code in order for Cypress to be able to log the results from Axe in a more user-friendly-shareable format.  Open the following file: `cypress/plugins/index.js`, notice this is not the same file we edited before. Once opened add the following piece of code:
+In order to get better results out of the automated testing we configured using Cypress and Axe-core, we need to do some tweaking.  We need to add some code in order for Cypress to be able to log the results from Axe in a more user-friendly-shareable format.  Open the following file: `cypress/plugins/index.js`, notice this is not the same file we edited before. Once opened we'll be adding the following piece of code. This code will create a custom command and two helper functions that will pretty-formatt the test results so the results can be easily reviewed in both console and the Cypress runner. 
+
+The custom command connects all the parts and will let us even further simplify our tests, since we can focus just on the logic required for the test itself leaving all helper functions under cypress configuration files. Then by calling this single command called `testAccessibility`, the code will automatically take care of instructing Cypress to navigate to the target page, will inject Axe into the page and then run the Axe-Core tests for WCAG A and AA tests automatically.
 
 ```js
+// FILE: cypress/plugins/index.js
+
 module.exports = (on, config) => {
   on('task', {
     log(message) {
@@ -89,8 +95,116 @@ module.exports = (on, config) => {
 }
 ```
 
+Now we need to add some more code into the following file: `cypress/support/commands.js`, this is how the file should look like:
 
-## Will continue this tomorrow, I'm tired. I'll go to sleep.
+```js
+
+const indicators = {
+    minor: '🟡',
+    moderate: '🟠',
+    serious: '🔴',
+    critical: '⛔',
+}
+
+function logViolations(violations) {
+    terminalLog(violations)
+    violations.forEach(violation => {
+        const nodes = Cypress.$(violation.nodes.map(node => node.target).join(','))
+        let log = {
+            name: `[${indicators[violation.impact]} ${violation.impact.toUpperCase()}]`,
+            consoleProps: () => violation,
+            $el: nodes,
+            message: `[${violation.help}](${violation.helpUrl})`
+
+        }
+        Cypress.log(log)
+
+        violation.nodes.forEach(({ target }) => {
+            Cypress.log({
+                name: '-🩸FIXME',
+                consoleProps: ()=> violation,
+                $el: Cypress.$(target.join(',')),
+                message: target
+            })
+
+        })
+    });
+}
+
+const terminalLog = (violations) => {
+    cy.task(
+      'log',
+      `\n${'TEST RESULTS'}
+      \n${violations.length} accessibility violation${
+        violations.length === 1 ? '' : 's'
+      } ${violations.length === 1 ? 'was' : 'were'} detected\n`
+    )
+    
+    cy.log('log', violations)
+    const violationData = violations.map(
+      ({ id, impact, description, nodes, help, helpUrl}) => ({
+        QUANTITY: nodes.length,
+        IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
+        ID:id,
+        DESCRIPTION: help,
+      })
+    )
+
+    cy.task('table', violationData)
+  }
+
+
+Cypress.Commands.add('testAccessibility', (path) => {
+    cy.visit(path)
+    cy.injectAxe()
+    cy.checkA11y(
+        null,
+        {
+          runOnly: {
+            type: 'tag',
+            values: ['wcag2a', 'wcag2aa'],
+          },
+        },
+        logViolations,
+      );
+})
+
+```
+
+This will let us have better results outputting to the console as well as in the Cypress runner. It will clearly highlight and color code issues by impact severity and in the case of the runner, it will also detail all elements affected by each accesibility issue. This is not added to the console since the output gets messed up if you have long texts or too much data. We'll cover later on how we can generate a full report from these results that we can further analyze or even share.
+
+With all this done let's take a look at how our test will look like:
+
+```js
+// FILE: cypress/integration/ADA_POC/ada_poc.spec.js
+
+describe('Automated Accessibility Testing POC', ()=>{
+
+    it('This page should be accessible.', ()=>{
+        cy.testAccessibility('');
+    })
+})
+```
+
+As you can see it is now much more readable and simple, and this simple custom command can now be used along any E2E regular automated tests and have the accessibility tested along them. It is worth mentioning that this POC is just using all Axe-core tests on base URL but it can very well be targetted to specific scenarios or even to test after an automated user interaction is performed to see how the acccsibility features of the website are behaving in those cases.
+
+But we did a lot of work to get better results and we haven't seen any so far, lets check how the results show up in the console first:
+
+![](https://i.imgur.com/5tUTG7j.png)
+
+
+They are looking quite nice and readable to me, at least compared to the previous output we had. Now let's see the same in the Cypress Runner:
+
+![](https://i.imgur.com/Z0v1n9E.png)
+
+Notice that now the issues are clearly listed in the runner details, with colored output and it even lists all the elements that are affected for each type of issue listed, those FIXME that you can see in the image. You can even click on them and the corresponding html element will be highlighted in the Cypress' runner integrated browser.
+
+That's all for now, let' me think if there is anything else we might need to detail here and I might be back later with more updates for you my README.md friend.
+
+
+@tzero86
+
+
 
 
 
