@@ -100,10 +100,10 @@ Now we need to add some more code into the following file: `cypress/support/comm
 ```js
 
 const indicators = {
-    minor: '🟡',
-    moderate: '🟠',
-    serious: '🔴',
-    critical: '⛔',
+    critical: '🟥',
+    serious:  '🟧', 
+    moderate: '🟨',
+    minor:    '🟩', 
 }
 
 function logViolations(violations) {
@@ -145,7 +145,7 @@ const terminalLog = (violations) => {
       ({ id, impact, description, nodes, help, helpUrl}) => ({
         QUANTITY: nodes.length,
         IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
-        ID:id,
+        RULE_ID:id,
         DESCRIPTION: help,
       })
     )

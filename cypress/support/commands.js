@@ -25,10 +25,11 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 const indicators = {
-    minor: '🟡',
-    moderate: '🟠',
-    serious: '🔴',
-    critical: '⛔',
+    critical: '🟥',
+    serious:  '🟧', 
+    moderate: '🟨',
+    minor:    '🟩', 
+     
 }
 
 function logViolations(violations) {
@@ -70,7 +71,7 @@ const terminalLog = (violations) => {
       ({ id, impact, description, nodes, help, helpUrl}) => ({
         QUANTITY: nodes.length,
         IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
-        ID:id,
+        RULE_ID:id,
         DESCRIPTION: help,
         //RESOURCES: `[LINK](${helpUrl})`
         //html: nodes[0].html,
