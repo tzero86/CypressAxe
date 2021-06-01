@@ -200,6 +200,49 @@ They are looking quite nice and readable to me, at least compared to the previou
 Notice that now the issues are clearly listed in the runner details, with colored output and it even lists all the elements that are affected for each type of issue found(those FIXME that you can see in the image). You can even click on the FIXME items and the corresponding html element will be highlighted in the Cypress' runner integrated browser.
 
 
+
+## Different supported WCAG rules
+
+[FROM AXE-CORE DOCS]
+
+Each rule in axe-core has a number of tags. These provide metadata about the rule. Each rule has one tag that indicates which WCAG version / level it belongs to, or if it doesn't it have the `best-practice` tag. If the rule is required by WCAG, there is a tag that references the success criterion number. For example, the `wcag111` tag means a rule is required for WCAG 2 success criterion 1.1.1.
+
+The `experimental`, `ACT` and `section508` tags are only added to some rules. Each rule with a `section508` tag also has a tag to indicate what requirement in old Section 508 the rule is required by. For example `section508.22.a`.
+
+| Tag Name | Accessibility Standard / Purpose |
+| --- | --- |
+| `wcag2a` | WCAG 2.0 Level A |
+| `wcag2aa` | WCAG 2.0 Level AA |
+| `wcag21a` | WCAG 2.1 Level A |
+| `wcag21aa` | WCAG 2.1 Level AA |
+| `best-practice` | Common accessibility best practices |
+| `wcag***` | WCAG success criterion e.g. wcag111 maps to SC 1.1.1 |
+| `ACT` | W3C approved Accessibility Conformance Testing rules |
+| `section508` | Old Section 508 rules |
+| `section508.*.*` | Requirement in old Section 508 |
+| `experimental` | Cutting-edge rules, disabled by default |
+| `cat.*` | Category mappings used by Deque (see below) |
+
+All rules have a `cat.*` tag, which indicates what type of content it is part of. The following `cat.*` tags exist in axe-core:
+
+| Category name |
+| --- |
+| `cat.aria` |
+| `cat.color` |
+| `cat.forms` |
+| `cat.keyboard` |
+| `cat.language` |
+| `cat.name-role-value` |
+| `cat.parsing` |
+| `cat.semantics` |
+| `cat.sensory-and-visual-cues` |
+| `cat.structure` |
+| `cat.tables` |
+| `cat.text-alternatives` |
+| `cat.time-and-media` |
+
+
+
 ## Planned additions
 
 📌 Generate a JSON Full Report
