@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cypress run"
+    "test": "cypress run NO_COLOR=1"
   },
   "keywords": [],
   "author": "",
