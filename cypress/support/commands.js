@@ -26,12 +26,25 @@
 
 const indicators = {
     critical: '🟥',
-    serious: '🟧',
+    serious:  '🟧',
     moderate: '🟨',
-    minor: '🟩'
+    minor:    '🟩'
 
 }
 
+
+function generateTable(){
+  // TODO: create a function that returns an HTML table generated from the specific columns from
+  // each violation found
+}
+
+function generateReport(violations){
+ // TODO: implement a function that generates the HMLT report with the test results
+
+}
+
+
+// Manages the overall use of the log data to get the Accessibility violations
 function logViolations(violations) {
     terminalLog(violations)
     violations.forEach(violation => {
@@ -63,6 +76,7 @@ const terminalLog = (violations) => {
         } detected\n`)
 
     cy.log('log', violations)
+    generateReport(violations) // FIXME: need to review where it's best to call this function.
     const violationData = violations.map(({
         id,
         impact,
@@ -78,6 +92,7 @@ const terminalLog = (violations) => {
         // RESOURCES: `[LINK](${helpUrl})`
         // html: nodes[0].html,
         // summary: nodes[0].failureSummary
+        // TODO: these columns are the ones we need for the dynamic table
     }))
 
     cy.task('table', violationData)

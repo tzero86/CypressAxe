@@ -1,6 +1,6 @@
 function json2Table(json) {
     let cols = Object.keys(json[0]);
-  
+  // TODO: Reuse this code to generate the table and merge it into the commands file (?)
   
     //Map over columns, make headers,join into string
     let headerRow = cols

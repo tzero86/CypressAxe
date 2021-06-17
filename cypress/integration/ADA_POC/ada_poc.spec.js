@@ -3,5 +3,7 @@ describe('Automated Accessibility Testing POC', ()=>{
     it('This page should not have any major accessibility issues.', ()=>{
         cy.testAccessibility('');
     })
-    
+
+    //TODO: cover other scenarios or pages (single element, exclude elements, other pages of the app)
+
 })
