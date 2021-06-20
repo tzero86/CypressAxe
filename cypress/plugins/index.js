@@ -17,6 +17,8 @@
  */
 // eslint-disable-next-line no-unused-vars
 const fs = require('fs')
+const lodash = require('lodash');
+
 module.exports = (on, config) => {
   on('task', {
     log(message) {
