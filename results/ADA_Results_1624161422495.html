@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -123,7 +124,6 @@
                 font-size: 19px;
                 background-color: #FEFEFE;
                 color: #04143A;
-                margin: 20px;
             }
             ol,
             ul {
@@ -530,7 +530,86 @@
                     margin-top: 2050px;
                 }
             }
-
+            table {
+                border: 1px solid #ccc;
+                border-collapse: collapse;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                table-layout: fixed;
+              }
+              
+              table caption {
+                font-size: 1.5em;
+                margin: .5em 0 .75em;
+              }
+              
+              table tr {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: .35em;
+              }
+              
+              table th,
+              table td {
+                padding: .625em;
+                text-align: center;
+              }
+              
+              table th {
+                font-size: .85em;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+              }
+              
+              @media screen and (max-width: 600px) {
+                table {
+                  border: 0;
+                }
+              
+                table caption {
+                  font-size: 1.3em;
+                }
+                
+                table thead {
+                  border: none;
+                  clip: rect(0 0 0 0);
+                  height: 1px;
+                  margin: -1px;
+                  overflow: hidden;
+                  padding: 0;
+                  position: absolute;
+                  width: 1px;
+                }
+                
+                table tr {
+                  border-bottom: 3px solid #ddd;
+                  display: block;
+                  margin-bottom: .625em;
+                }
+                
+                table td {
+                  border-bottom: 1px solid #ddd;
+                  display: block;
+                  font-size: .8em;
+                  text-align: right;
+                }
+                
+                table td::before {
+                  /*
+                  * aria-label has no advantage, it won't be read inside a table
+                  content: attr(aria-label);
+                  */
+                  content: attr(data-label);
+                  float: left;
+                  font-weight: bold;
+                  text-transform: uppercase;
+                }
+                
+                table td:last-child {
+                  border-bottom: 0;
+                }
+              }
 
         </style>
     </head>
@@ -557,38 +636,38 @@
         <div class="container">
 
             <div class="sections">
-                <h2 class="section-title">Details</h2>
+                <h2 class="section-title">Execution Details:</h2>
 
                 <div class="list-card">
-                    <span class="exp">${total_violations}</span>
+                    <span class="exp"></span>
                     <div>
                         <h3>Accessibility Issues found</h3>
-                        <span>-</span>
+                        <span>4</span>
                     </div>
                 </div>
 
                 <div class="list-card">
-                    <span class="exp">${date_run}</span>
+                    <span class="exp"></span>
                     <div>
                         <h3>Test Executed On:</h3>
-                        <span>-</span>
+                        <span>6/20/2021, 12:57:02 AM</span>
                     </div>
                 </div>
             </div>
             <div class="sections">
-                <h2 class="section-title">Target Details</h2>
+                <h2 class="section-title"></h2>
 
                 <div class="list-card">
                     <div>
                         <h3>URL:</h3>
-                        <span>${target_url}</span>
+                        <span>https://www2.deloitte.com/ar/es.html</span>
                     </div>
                 </div>
 
                 <div class="list-card">
                     <div>
                         <h3>Environment:</h3>
-                        <span>${environment}</span>
+                        <span>QA</span>
                     </div>
                 </div>
             </div>
@@ -649,24 +728,42 @@
 
         </div>
 
-        <div class="resultsTable">
-			
-		</div>
 
         <div class="container">
 			<p>If you have any questions please don't hesitate to reach out to Health Choice US QC Team.</p>
+		</div>
+
+        <div class="container resultsTable">
+			
+      <table>
+          <thead>
+              <tr><th>TOT</th><th>IMPACT</th><th>RULE_ID</th><th>DESCRIPTION</th><th>RESOURCES</th><th>summary</th></tr>
+          <thead>
+          <tbody>
+              <tr><td>1</td><td>🟩 MINOR</td><td>empty-heading</td><td>Headings should not be empty</td><td><a href="https://dequeuniversity.com/rules/axe/4.2/empty-heading?application=axeAPI">More Info</a></td><td>Fix any of the following:
+  Element does not have text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute</td></tr><tr><td>1</td><td>🟨 MODERATE</td><td>landmark-one-main</td><td>Document should have one main landmark</td><td><a href="https://dequeuniversity.com/rules/axe/4.2/landmark-one-main?application=axeAPI">More Info</a></td><td>Fix all of the following:
+  Document does not have a main landmark</td></tr><tr><td>2</td><td>🟧 SERIOUS</td><td>link-name</td><td>Links must have discernible text</td><td><a href="https://dequeuniversity.com/rules/axe/4.2/link-name?application=axeAPI">More Info</a></td><td>Fix all of the following:
+  Element is in tab order and does not have accessible text
+
+Fix any of the following:
+  Element does not have text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute</td></tr><tr><td>12</td><td>🟨 MODERATE</td><td>region</td><td>All page content should be contained by landmarks</td><td><a href="https://dequeuniversity.com/rules/axe/4.2/region?application=axeAPI">More Info</a></td><td>Fix any of the following:
+  Some page content is not contained by landmarks</td></tr>
+          <tbody>
+      <table>
 		</div>
 
 
         <br><br>
 
 
-
-
         <footer class="container">
             <span style="font-size: 16px; margin-top: ">2021 Health Choice US QC Team</span>
         </footer>
-
-
     </body>
 </html>

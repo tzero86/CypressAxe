@@ -16,6 +16,7 @@
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
+const fs = require('fs')
 module.exports = (on, config) => {
   on('task', {
     log(message) {
@@ -25,6 +26,15 @@ module.exports = (on, config) => {
     table(message) {
       console.table(message)
       return null
+    },
+    generateReport(file) {
+      fs.writeFile(file.filename, file.fileBody, err => {
+        if (err) {
+            console.error(err);
+            return null
+        }
+    })
+    return null
     }
   })
 }

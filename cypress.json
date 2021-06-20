@@ -1,4 +1,5 @@
 {
-    "baseUrl": "http://dciqsbmapp01.dci.local:8089/HBEWeb/Annon_DisplayHomePage",
-    "video": false
+    "baseUrl": "https://www2.deloitte.com/ar/es.html",
+    "video": false,
+    "environment": "QA"
 }
