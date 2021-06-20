@@ -25,9 +25,6 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 
-
-
-
 const indicators = {
     critical: '🟥',
     serious:  '🟧',
@@ -719,12 +716,12 @@ function generateReport(violations){
         <div class="container">
 
             <div class="sections">
-                <h2 class="section-title">Execution Details:</h2>
+                <h2 class="section-title"></h2>
 
                 <div class="list-card">
                     <span class="exp"></span>
                     <div>
-                        <h3>Accessibility Issues found</h3>
+                        <h3>Accessibility Issues found:</h3>
                         <span>${violations.length}</span>
                     </div>
                 </div>
@@ -743,7 +740,7 @@ function generateReport(violations){
                 <div class="list-card">
                     <div>
                         <h3>URL:</h3>
-                        <span>${Cypress.config().baseUrl}</span>
+                        <span><a href="${Cypress.config().baseUrl}">${Cypress.config().baseUrl}</a></span>
                     </div>
                 </div>
 
@@ -831,7 +828,8 @@ function generateReport(violations){
 </html>
 `;
 
-    let filename = `./results/ADA_Results_${Date.now()}.html`
+    //let filename = `./results/ADA_Results_${Date.now()}.html`;
+    let filename = `./results/ADA_Results_test.html`;
     let file = {
         filename : filename,
         fileBody : templateFile
@@ -880,13 +878,11 @@ const terminalLog = (violations) => {
         help,
         helpUrl
     }) => ({
-        TOT: nodes.length,
+        //TOT: nodes.length,
         IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
-        RULE_ID: id,
-        DESCRIPTION: help,
-        RESOURCES: `<a href="${helpUrl}">More Info</a>`,
-        //html: nodes[0].html,
-        summary: nodes[0].failureSummary
+        ISSUE_DETAILS: `<p><strong>RuleID: </strong>  ${id} (${help})<br><br>${nodes[0].failureSummary}</p><br><br><a href="${helpUrl}">More Info</a>`,
+        ELEMENTS: `<p>${nodes.map(node => node.html).join(',')}<p>` //FIXME: Shows up in the terminal but not in the HTML table
+        //RESOURCES: `<a href="${helpUrl}">More Info</a>`,
         // TODO: these columns are the ones we need for the dynamic table
     }))
     generateReport(violationData)
