@@ -201,6 +201,15 @@ Notice that now the issues are clearly listed in the runner details, with colore
 
 
 
+
+## HTML Report Generation (Work in progress)
+
+The solution now contains the generation of a basic HTML report which includes additional details and resources on the list of issues detected. These help resources are provided for the development team and the test team to get more information about the type of issue and the possible actions that can be taken to correct them.
+
+![](https://i.imgur.com/4cf0nil.jpg)
+
+
+
 ## Different supported WCAG rules
 
 [FROM AXE-CORE DOCS]
@@ -247,11 +256,11 @@ All rules have a `cat.*` tag, which indicates what type of content it is part of
 
 📌 Generate a JSON Full Report
 
-📌 Generate an HTML formatted report for sharing
+📌 Generate an HTML formatted report for sharing [Partially Implemented]
 
 📌 Add example tests of specific elements testing
 
-📌 Add details on which types of tests and rules can be tested with the Axe-Core integration.
+📌 Add details on which types of tests and rules can be tested with the Axe-Core integration. [Partially Implemented]
 
 
 That's all for now, let' me think if there is anything else we might need to detail here and I might be back later with more updates for you my README.md friend.
