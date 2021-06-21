@@ -204,9 +204,9 @@ Notice that now the issues are clearly listed in the runner details, with colore
 
 ## HTML Report Generation (Work in progress)
 
-The solution now contains the generation of a basic HTML report which includes additional details and resources on the list of issues detected. These help resources are provided for the development team and the test team to get more information about the type of issue and the possible actions that can be taken to correct them.
+The solution now contains the generation of a basic HTML report which includes additional details and resources on the list of issues detected. These help resources are provided for the development team and the test team to get more information about the type of issue and the possible actions that can be taken to correct them. Part of this information provided are the selectors for each of the affected HTML elements.
 
-![](https://i.imgur.com/4cf0nil.jpg)
+![](https://i.imgur.com/YSMt8Z2.jpg)
 
 
 
