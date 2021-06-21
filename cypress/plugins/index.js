@@ -17,7 +17,6 @@
  */
 // eslint-disable-next-line no-unused-vars
 const fs = require('fs')
-const lodash = require('lodash');
 
 module.exports = (on, config) => {
   on('task', {
@@ -33,7 +32,7 @@ module.exports = (on, config) => {
       fs.writeFile(file.filename, file.fileBody, err => {
         if (err) {
             console.error(err);
-            return null
+            return
         }
     })
     return null
