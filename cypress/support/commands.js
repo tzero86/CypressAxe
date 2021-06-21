@@ -895,7 +895,7 @@ const terminalLog = (violations) => {
         help,
         helpUrl
     }) => ({
-        //TOT: nodes.length,
+        //TOTAL: nodes.length,
         IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
         ISSUE_DETAILS: `<p><strong>RuleID: </strong>  ${id} (${help})<br><br>${nodes[0].failureSummary}</p><br><br><a href="${helpUrl}">More Info</a>`,
         ELEMENT_SELECTOR: `<p>${nodes.map(node => node.target).join('<br><br>')}</p>` //FIXME: Shows up in the terminal but not in the HTML table
