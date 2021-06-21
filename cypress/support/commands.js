@@ -33,6 +33,13 @@ const indicators = {
 
 }
 
+let summary = {
+    critical: 0,
+    serious: 0,
+    moderate: 0,
+    minor: 0
+}
+
 
 function generateTable(json){
   // TODO: create a function that returns an HTML table generated from the specific columns from
@@ -72,12 +79,21 @@ function generateTable(json){
 }
 
 
+function getTotalIssues(violations, query){
+    let count = 0;
+    violations.forEach(violation => { 
+       // cy.task('table', `impact: ${violation.IMPACT} CompareSTR: '${query}'`);
+        if(violation.IMPACT == query){
+           count++;
+      };
+    })
+   return count;
+}
+
 
 function generateReport(violations){
     let table = generateTable(violations);
-    let test = "test";
     let day = new Date();
-    // TODO: implement a function that generates the HMLT report with the test results
     let templateFile = `
 <!DOCTYPE html>
 <html>
@@ -634,6 +650,7 @@ function generateReport(violations){
               table td {
                 padding: .625em;
                 text-align: center;
+                word-wrap: break-word;
               }
               
               table th {
@@ -758,7 +775,7 @@ function generateReport(violations){
             <div class="card">
                 <div class="skill-level">
                     <span></span>
-                    <h2>6</h2>
+                    <h2>${getTotalIssues(violations, indicators['critical']+" "+"CRITICAL")}</h2>
                 </div>
 
                 <div class="skill-meta">
@@ -770,7 +787,7 @@ function generateReport(violations){
 
             <div class="card">
                 <div class="skill-level">
-                    <h2>5</h2>
+                    <h2>${getTotalIssues(violations, indicators['serious']+" "+"SERIOUS")}</h2>
                     <span></span>
                 </div>
 
@@ -783,7 +800,7 @@ function generateReport(violations){
 
             <div class="card">
                 <div class="skill-level">
-                    <h2>3</h2>
+                    <h2>${getTotalIssues(violations, indicators['moderate']+" "+"MODERATE")}</h2>
                     <span></span>
                 </div>
 
@@ -796,7 +813,7 @@ function generateReport(violations){
 
             <div class="card">
                 <div class="skill-level">
-                    <h2>20</h2>
+                    <h2>${getTotalIssues(violations, indicators['minor']+" "+"MINOR")}</h2>
                     <span></span>
                 </div>
 
@@ -881,12 +898,12 @@ const terminalLog = (violations) => {
         //TOT: nodes.length,
         IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
         ISSUE_DETAILS: `<p><strong>RuleID: </strong>  ${id} (${help})<br><br>${nodes[0].failureSummary}</p><br><br><a href="${helpUrl}">More Info</a>`,
-        ELEMENTS: `<p>${nodes.map(node => node.html).join(',')}<p>` //FIXME: Shows up in the terminal but not in the HTML table
+        ELEMENT_SELECTOR: `<p>${nodes.map(node => node.target).join('<br><br>')}</p>` //FIXME: Shows up in the terminal but not in the HTML table
         //RESOURCES: `<a href="${helpUrl}">More Info</a>`,
         // TODO: these columns are the ones we need for the dynamic table
     }))
     generateReport(violationData)
-    cy.task('table', violationData)
+    //cy.task('table', violationData)
     
 }
 
