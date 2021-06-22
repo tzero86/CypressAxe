@@ -1,6 +1,6 @@
 # Automated ADA Testing - (Axe-core & Cypress) - WORK IN PROGRESS
 
-The other day at work a colleague shared the basics on how to start doing Accessibility testing using JAWS and WAVE. It was quite motivating so I started looking into how we can have some of these tests automated and found out that there is actually a way to run automated accessibility tests that could provide a good amount of coverage in a really fast manner. I
+The other day at work a colleague shared the basics on how to start doing Accessibility testing using JAWS and WAVE. It was quite motivating so I started looking into how we can have some of these tests automated and found out that there is actually a way to run automated accessibility tests that could provide a good amount of coverage in a really fast manner.
 
 This could potentially benefit the rest of the team to allow them to have an extra tool that could quickly provide an accessibility assessment, at least for all possible tests covered by the Axe-Core Library.
 
@@ -17,7 +17,20 @@ To get started we'll need the following installed on the machine where you plan 
 - Chrome or any other browser supported by Cypress.
 
 
-## Setting up the tools
+## How to use this tool
+
+If you want to just run this solution instead of creating it from scratch, you can just follow these simple steps:
+
+- Clone the Repository:
+`git clone https://github.com/tzero86/CypressAxe`
+- Access cloned folder and Install the dependencies: `npm install`
+- In the `Cypress.json` file, set the URL you want to test.
+- Run the tests by doing: `npm run test`
+- Alternatively you can run the test using Cypress Runner: `npx cypress open`
+
+Happy testing!
+
+## Setting up the tools (Tutorial)
 
 Let's start by setting up **NodeJS**. Depending on your OS you'll grab the corresponding installer from [here](https://nodejs.org/en/).  In my case I'm running Manjaro Linux, so I had to run this: `sudo pacman -S nodejs` and `sudo pacman -S npm`. But it any case the installation is well documented on NodeJS' website so we won't spend any more time on this.
 
