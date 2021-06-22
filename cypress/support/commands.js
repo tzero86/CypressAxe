@@ -897,7 +897,7 @@ const terminalLog = (violations) => {
     }) => ({
         //TOTAL: nodes.length,
         IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
-        ISSUE_DETAILS: `<p><strong>RuleID: </strong>  ${id} (${help})<br><br>${nodes[0].failureSummary}</p><br><br><a href="${helpUrl}">More Info</a>`,
+        ISSUE_DETAILS: `<p><strong>RuleID: </strong>  ${id} (${help})<br><br>${nodes[0].failureSummary}</p><br><br><a href="${helpUrl}" target="_blank">More Info</a>`,
         ELEMENT_SELECTOR: `<p>${nodes.map(node => node.target).join('<br><br>')}</p>` //FIXME: Shows up in the terminal but not in the HTML table
         //RESOURCES: `<a href="${helpUrl}">More Info</a>`,
         // TODO: these columns are the ones we need for the dynamic table

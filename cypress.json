@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://www.msn.com/es-ar/entretenimiento/noticias/la-renga-por-streaming-un-signo-de-estos-tiempos/ar-AALfd7a?ocid=msedgntp",
+    "baseUrl": "http://dciqsbmapp01.dci.local:8089/HBEWeb/DisplayBrokerNavigatorSearch.action?brokerNavigator",
     "video": false,
     "environment": "QA"
 }
