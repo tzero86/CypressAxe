@@ -1,5 +1,5 @@
 {
-    "baseUrl": "http://dciqsbmapp01.dci.local:8089/HBEWeb/DisplayBrokerNavigatorSearch.action?brokerNavigator",
+    "baseUrl": "http://dciqsbmapp01.dci.local:8089",
     "video": false,
     "environment": "QA"
 }
