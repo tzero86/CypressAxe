@@ -33,30 +33,31 @@ const indicators = {
 
 }
 
-let summary = {
-    critical: 0,
-    serious: 0,
-    moderate: 0,
-    minor: 0
+// TODO: to clean things up a bit, we need to consolidate all results info into a new object and have that object feed the template.
+let resultsSummary = {
+    date: '',
+    environment: '',
+    url: '',
+    results: {
+        critical: 0,
+        serious: 0,
+        moderate: 0,
+        minor: 0
+    },
 }
 
 
+// This function generates an HTML string representation of a table from the Violations objects returned as tests results from axe-core
 function generateTable(json){
-  // TODO: create a function that returns an HTML table generated from the specific columns from
   // each violation found
   let cols = Object.keys(json[0]);
-  // TODO: Reuse this code to generate the table and merge it into the commands file (?)
   
     //Map over columns, make headers,join into string
     let headerRow = cols
       .map(col => `<th>${col}</th>`)
       .join("");
-  
-    //map over array of json objs, for each row(obj) map over column values,
-    //and return a td with the value of that object for its column
-    //take that array of tds and join them
-    //then return a row of the tds
-    //finally join all the rows together
+    //map over array of json objs, for each row(obj) map over column values, return a td with the value of that object for its column
+    //take that array of tds and join them, then return a row of the tds, finally joins all the rows together
     let rows = json
       .map(row => {
         let tds = cols.map(col => `<td>${row[col]}</td>`).join("");
@@ -64,7 +65,7 @@ function generateTable(json){
       })
       .join("");
   
-    //build the table
+    // we build the table with the header and rows we generated
     const table = `
       <table>
           <thead>
@@ -79,10 +80,11 @@ function generateTable(json){
 }
 
 
+// Manages the counting of issues by a given severity
+// TODO: this needs some cleaning on the HTML report side, since we are adding an emoji to the severities(impact) the search is not optimal and too verbose
 function getTotalIssues(violations, query){
     let count = 0;
     violations.forEach(violation => { 
-       // cy.task('table', `impact: ${violation.IMPACT} CompareSTR: '${query}'`);
         if(violation.IMPACT == query){
            count++;
       };
@@ -91,6 +93,7 @@ function getTotalIssues(violations, query){
 }
 
 
+// Actually generates the HTML report to a file
 function generateReport(violations){
     let table = generateTable(violations);
     let day = new Date();
@@ -806,7 +809,7 @@ function generateReport(violations){
 
                 <div class="skill-meta">
                     <h3>🟨 Moderate</h3>
-                    <span>Issues than moderately impact accessibility.</span>
+                    <span>Issues that moderately impact accessibility.</span>
                 </div>
             </div>
 
@@ -844,7 +847,6 @@ function generateReport(violations){
     </body>
 </html>
 `;
-
     //let filename = `./results/ADA_Results_${Date.now()}.html`;
     let filename = `./results/ADA_Results_test.html`;
     let file = {
@@ -856,6 +858,7 @@ function generateReport(violations){
 
 
 // Manages the overall use of the log data to get the Accessibility violations
+// These violations will feed the report in both HTML and terminal (including Cypress Runner)
 function logViolations(violations) {
     terminalLog(violations)
     violations.forEach(violation => {
@@ -898,9 +901,9 @@ const terminalLog = (violations) => {
         //TOTAL: nodes.length,
         IMPACT: `${indicators[impact]} ${impact.toUpperCase()}`,
         ISSUE_DETAILS: `<p><strong>RuleID: </strong>  ${id} (${help})<br><br>${nodes[0].failureSummary}</p><br><br><a href="${helpUrl}" target="_blank">More Info</a>`,
-        ELEMENT_SELECTOR: `<p>${nodes.map(node => node.target).join('<br><br>')}</p>` //FIXME: Shows up in the terminal but not in the HTML table
+        ELEMENT_SELECTOR: `<p>${nodes.map(node => node.target).join('<br><br>')}</p>`
         //RESOURCES: `<a href="${helpUrl}">More Info</a>`,
-        // TODO: these columns are the ones we need for the dynamic table
+        // TODO: these columns are the ones we need for the dynamic table, but some we don't need for the terminal. Need to split this data
     }))
     generateReport(violationData)
     //cy.task('table', violationData)
@@ -908,6 +911,8 @@ const terminalLog = (violations) => {
 }
 
 
+// This adds to Cypress a custom command that will handle in an all-in-one kind of way the injection, navigation and execution of the tests
+// passing the results into the callback function logViolations(), which further handles the reporting.
 Cypress.Commands.add('testAccessibility', (path) => {
     cy.visit(path)
     cy.injectAxe()
