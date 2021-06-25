@@ -1,7 +1,11 @@
 describe('User Logged in - Customer Dashboard ADA Testing.', () => {
     it('The user dashboard should not have accesibility issues.', () => {
         // we navigate cypress to the login page (this URL loads the test login form)
-        cy.visit('/HBEWeb')
+        cy.visit('/HBEWeb', {
+            onBeforeLoad: (win) => {
+                win["parent"] = win;
+            }
+        })
         // we type in the username, we don't need a password
         cy.get('#TestLogin_username').type('customer1')
         // we click on the login button
