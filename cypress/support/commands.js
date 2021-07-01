@@ -931,3 +931,17 @@ Cypress.Commands.add('testAccessibility', (path) => {
         }
     }, logViolations);
 })
+
+// Handles the test login form authentication(which requires no password)
+Cypress.Commands.add('HCTestLogin', (username) => {
+     // we navigate cypress to the login page (this URL loads the test login form)
+     cy.visit('/HBEWeb', {
+        onBeforeLoad: (win) => {
+            win["parent"] = win;
+        }
+    })
+    // we type in the username, we don't need a password
+    cy.get('#TestLogin_username').type(`${username}`)
+    // we click on the login button
+    cy.get('#TestLogin_doTestLogin').click()
+})
