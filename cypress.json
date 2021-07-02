@@ -1,5 +1,9 @@
 {
-    "baseUrl": "http://dciqsbmapp01.dci.local:8089",
+    "baseUrl": "http://dciqsbmapp01.dci.local:8089/",
     "video": false,
-    "environment": "QA"
+    "environment": "QA",
+    "env": {
+        "specificUrl": "",
+        "username": ""
+      }
 }
