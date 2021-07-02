@@ -760,7 +760,7 @@ function generateReport(violations){
                 <div class="list-card">
                     <div>
                         <h3>URL:</h3>
-                        <span><a href="${Cypress.config().baseUrl}">${Cypress.config().baseUrl}</a></span>
+                        <span><a href="${Cypress.config().baseUrl}${Cypress.env('specificUrl')}">${Cypress.config().baseUrl}${Cypress.env('specificUrl')}</a></span>
                     </div>
                 </div>
 
