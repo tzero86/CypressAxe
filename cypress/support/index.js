@@ -20,3 +20,8 @@ import 'fs'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // prevents Cypress from failing the test whenever an page-owned error or dependency fails to load (like the JQuery error)
+    return false
+})
